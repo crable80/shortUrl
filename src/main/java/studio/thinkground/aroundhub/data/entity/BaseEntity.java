@@ -14,8 +14,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class) //중요
+@MappedSuperclass //공통 엔티티로 사용 (superclass 라고 생각하면됨)
+@EntityListeners(AuditingEntityListener.class) //엔티티 감사 리스너
 public class BaseEntity {
 	
 	@CreatedDate

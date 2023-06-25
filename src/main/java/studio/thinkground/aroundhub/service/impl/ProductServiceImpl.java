@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import studio.thinkground.aroundhub.data.dto.ProductDto;
-import studio.thinkground.aroundhub.data.entity.ProductEntity;
+import studio.thinkground.aroundhub.data.entity.Product;
 import studio.thinkground.aroundhub.data.handler.ProductDataHandler;
 import studio.thinkground.aroundhub.service.ProductService;
 
@@ -20,22 +20,20 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public ProductDto saveProduct(String productId, String productName, int productPrice, int productStock) {
-		// TODO Auto-generated method stub
-		ProductEntity productEntity = productDataHandler.saveProductEntity(productId, productName, productPrice, productStock);
+		Product productEntity = productDataHandler.saveProductEntity(productId, productName, productPrice, productStock);
 		
-		ProductDto productDto = new ProductDto(productEntity.getProductId(), 
-				productEntity.getProductName(), productEntity.getProductPrice(), productEntity.getProductStock());
+		ProductDto productDto = new ProductDto(productEntity.getId(), 
+				productEntity.getName(), productEntity.getPrice(), productEntity.getStock());
 		
 		return productDto;
 	}
 
 	@Override
 	public ProductDto getProduct(String productId) {
-		// TODO Auto-generated method stub
-		ProductEntity productEntity = productDataHandler.getProductEntity(productId);
+		Product productEntity = productDataHandler.getProductEntity(productId);
 		
-		ProductDto productDto = new ProductDto(productEntity.getProductId(), 
-				productEntity.getProductName(), productEntity.getProductPrice(), productEntity.getProductStock());
+		ProductDto productDto = new ProductDto(productEntity.getId(), 
+				productEntity.getName(), productEntity.getPrice(), productEntity.getStock());
 		
 		return productDto;
 	}

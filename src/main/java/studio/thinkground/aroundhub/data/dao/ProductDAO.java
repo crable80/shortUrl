@@ -1,9 +1,9 @@
 package studio.thinkground.aroundhub.data.dao;
 
-import studio.thinkground.aroundhub.data.entity.ProductEntity;
+import studio.thinkground.aroundhub.data.entity.Product;
 
 public interface ProductDAO {
-	ProductEntity saveProduct(ProductEntity productEntity);
+	Product saveProduct(Product productEntity);
 	
-	ProductEntity getProduct(String productId);
+	Product getProduct(String productId);
 }

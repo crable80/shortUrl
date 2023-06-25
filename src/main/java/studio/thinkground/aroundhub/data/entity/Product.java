@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -17,16 +18,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @Table(name = "product")
-public class ProductEntity {
+public class Product extends BaseEntity{
 	
 	@Id
-	String productId;
+	String id;
 	
-	String productName;
+	String name;
 	
-	int productPrice;
+	int price;
 	
-	int productStock;
+	int stock;
 
 }

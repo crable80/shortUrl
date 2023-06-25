@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import studio.thinkground.aroundhub.data.dao.ProductDAO;
-import studio.thinkground.aroundhub.data.entity.ProductEntity;
+import studio.thinkground.aroundhub.data.entity.Product;
 import studio.thinkground.aroundhub.data.handler.ProductDataHandler;
 
 @Service
@@ -20,14 +20,14 @@ public class ProductDataHandlerImpl implements ProductDataHandler{
 	}
 	
 	@Override
-	public ProductEntity saveProductEntity(String productId, String productName, int productPrice, int productStock) {
+	public Product saveProductEntity(String productId, String productName, int productPrice, int productStock) {
 		// TODO Auto-generated method stub
-		ProductEntity productEntity = new ProductEntity(productId, productName, productPrice, productStock);
+		Product productEntity = new Product(productId, productName, productPrice, productStock);
 		return productDAO.saveProduct(productEntity);
 	}
 
 	@Override
-	public ProductEntity getProductEntity(String productId) {
+	public Product getProductEntity(String productId) {
 		// TODO Auto-generated method stub
 		return productDAO.getProduct(productId);
 	}

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import studio.thinkground.aroundhub.data.dao.ProductDAO;
-import studio.thinkground.aroundhub.data.entity.ProductEntity;
+import studio.thinkground.aroundhub.data.entity.Product;
 import studio.thinkground.aroundhub.data.repository.ProductRepository;
 
 @Service
@@ -18,16 +18,16 @@ public class ProductDAOImpl implements ProductDAO{
 	}
 
 	@Override
-	public ProductEntity saveProduct(ProductEntity productEntity) {
+	public Product saveProduct(Product productEntity) {
 		// TODO Auto-generated method stub
 		productRepository.save(productEntity);
 		return productEntity;
 	}
 
 	@Override
-	public ProductEntity getProduct(String productId) {
+	public Product getProduct(String productId) {
 		// TODO Auto-generated method stub
-		ProductEntity productEntity = productRepository.getById(productId);
+		Product productEntity = productRepository.getById(productId);
 		return productEntity;
 	}
 

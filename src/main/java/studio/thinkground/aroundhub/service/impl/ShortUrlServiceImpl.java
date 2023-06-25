@@ -2,9 +2,11 @@ package studio.thinkground.aroundhub.service.impl;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,24 +19,39 @@ import org.springframework.web.util.UriComponentsBuilder;
 import studio.thinkground.aroundhub.data.dao.ShortUrlDAO;
 import studio.thinkground.aroundhub.data.dto.NaverUriDto;
 import studio.thinkground.aroundhub.data.dto.ShortUrlResponseDto;
-import studio.thinkground.aroundhub.data.entity.ShortUrlEntity;
+import studio.thinkground.aroundhub.data.entity.ShortUrl;
+import studio.thinkground.aroundhub.data.repository.ShortUrlRedisRepository;
 import studio.thinkground.aroundhub.service.ShortUrlService;
 
 @Service
 public class ShortUrlServiceImpl implements ShortUrlService{
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(ShortUrlServiceImpl.class);
+	private final ShortUrlDAO shortUrlDAO;
+	private final ShortUrlRedisRepository shortUrlRedisRepository; // (Redis)
 	
-	ShortUrlDAO shortUrlDAO;
-	
-	public ShortUrlServiceImpl(ShortUrlDAO shortUrlDAO) {this.shortUrlDAO = shortUrlDAO;}
+	@Autowired
+	public ShortUrlServiceImpl(ShortUrlDAO shortUrlDAO, ShortUrlRedisRepository shortUrlRedisRepository) {
+		this.shortUrlDAO = shortUrlDAO;
+		this.shortUrlRedisRepository = shortUrlRedisRepository;
+	}
 
 	//단축 url 조회 (DB조회후 없으면, 네이버 API 조회)
 	@Override
 	public ShortUrlResponseDto getShortUrl(String clientId, String clientSecret, String originalUrl) {
 		LOGGER.info("[getShortUrl] request data : {}", originalUrl);
+		
+		//Cache Logic (Redis) - 사용하려면 docker 서버 생성할것!
+//		Optional<ShortUrlResponseDto> foundResponseDto = shortUrlRedisRepository.findById(originalUrl);
+//		if(foundResponseDto.isPresent()) {
+//			LOGGER.info("[getShortUrl] Cache Data is existed.");
+//			return foundResponseDto.get();
+//		}else {
+//			LOGGER.info("[getShortUrl] Cache Data is not existed.");
+//		}
+		
 		//단축 url DB 조회
-		ShortUrlEntity getShortUrlEntity = shortUrlDAO.getShortUrl(originalUrl);
+		ShortUrl getShortUrlEntity = shortUrlDAO.getShortUrl(originalUrl);
 		
 		String orgUrl;
 		String shortUrl;
@@ -72,7 +89,7 @@ public class ShortUrlServiceImpl implements ShortUrlService{
 		String shortUrl	= responseEntity.getBody().getResult().getUrl();
 		String hash		= responseEntity.getBody().getResult().getHash();
 		
-		ShortUrlEntity shortUrlEntity = new ShortUrlEntity();
+		ShortUrl shortUrlEntity = new ShortUrl();
 		shortUrlEntity.setOrgUrl(orgUrl);
 		shortUrlEntity.setUrl(shortUrl);
 		shortUrlEntity.setHash(hash);
@@ -82,6 +99,10 @@ public class ShortUrlServiceImpl implements ShortUrlService{
 		
 		//반환 DTO
 		ShortUrlResponseDto shortUrlResponseDto = new ShortUrlResponseDto(orgUrl, shortUrl);
+		
+		// Cache Logic (Redis) - 사용하려면 docker 서버 생성할것!
+		//shortUrlRedisRepository.save(shortUrlResponseDto);
+		
 		LOGGER.info("[generateShortUrl] Response DTO : {}", shortUrlResponseDto.toString());
 		
 		return shortUrlResponseDto;

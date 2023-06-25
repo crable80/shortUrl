@@ -1,16 +1,16 @@
 package studio.thinkground.aroundhub.data.dao;
 
-import studio.thinkground.aroundhub.data.entity.ShortUrlEntity;
+import studio.thinkground.aroundhub.data.entity.ShortUrl;
 
 public interface ShortUrlDAO {
 
-	ShortUrlEntity saveShortUrl(ShortUrlEntity shortUrlEntity); //단축url 저장
+	ShortUrl saveShortUrl(ShortUrl shortUrlEntity); //단축url 저장
 	
-	ShortUrlEntity getShortUrl(String originalUrl); //단축url 조회 by originalUrl
+	ShortUrl getShortUrl(String originalUrl); //단축url 조회 by originalUrl
 	 
-	ShortUrlEntity getOriginalUrl(String shortUrl); //단축url 조회 by shortUrl
+	ShortUrl getOriginalUrl(String shortUrl); //단축url 조회 by shortUrl
 	
-	ShortUrlEntity updateShortUrl(ShortUrlEntity newShortUrlEntity);
+	ShortUrl updateShortUrl(ShortUrl newShortUrlEntity);
 	
 	void deleteByShortUrl(String shortUrl); //단축url 삭제 by shortUrl
 	
